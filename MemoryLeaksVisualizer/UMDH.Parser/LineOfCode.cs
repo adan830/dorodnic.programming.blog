@@ -38,9 +38,9 @@ namespace UMDH.Parser
             result.CallsTo = new List<LineOfCode>();
             result.Leaks = new List<Backtrace>();
 
-            var match = Regex.Match(line, "(?<moduleName>.*)\\!(?<symbolName>.*)\\+(?<rest>(.*))?");
+            var match = Regex.Match(line, "(?<moduleName>.*)\\!(?<symbolName>.*)\\+(?<rest>(.*))?$|(?<moduleName>.*)$");
             var moduleName = match.Groups["moduleName"].Value;
-            var symbolName = match.Groups["symbolName"].Value;
+            var symbolName = match.Groups["symbolName"].Value; if (String.IsNullOrEmpty(symbolName)) symbolName = moduleName;
             var rest = match.Groups["rest"].Success ? match.Groups["rest"].Value : "";
 
             result.Module = owner.Modules.FirstOrDefault(x => x.Name == moduleName);

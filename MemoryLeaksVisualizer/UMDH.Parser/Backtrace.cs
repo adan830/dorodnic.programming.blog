@@ -49,7 +49,7 @@ namespace UMDH.Parser
             var result = new Backtrace
             {
                 TotalLeak = bytesDelta,
-                IndividualLeak = bytesDelta / countDelta,
+                IndividualLeak = (countDelta > 0) ? bytesDelta / countDelta : 0,
                 Count = countDelta,
                 Owner = owner,
                 Lines = new List<LineOfCode>(),

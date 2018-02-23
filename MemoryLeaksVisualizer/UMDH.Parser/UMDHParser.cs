@@ -68,6 +68,8 @@ namespace UMDH.Parser
                     codebase.Modules.Add(Module.Create(codebase, match.Groups["moduleName"].Value, symbolsFile));
                 }
             }
+            // Fake module to match "Alias" entries in stack.
+            codebase.Modules.Add(Module.Create(codebase, "Alias", ""));
 
             if (onProgress != null) onProgress(50);
 
