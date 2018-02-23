@@ -19,6 +19,8 @@ namespace UMDH.Visualizer
                 case "2008": return string.Format(template, 9);
                 case "2010": return string.Format(template, 10);
                 case "2012": return string.Format(template, 11);
+                case "2015": return string.Format(template, 12);
+                case "2017": return string.Format(template, 13);
                 default: return "VisualStudio.DTE"; // System Default
             }
         }
