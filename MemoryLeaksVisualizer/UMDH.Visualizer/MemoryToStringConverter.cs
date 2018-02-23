@@ -22,11 +22,11 @@ namespace UMDH.Visualizer
             }
             else if (memory < 1024 * 1024 * 1024)
             {
-                return (memory / 1024 * 1024) + " MB (" + memory + " Bytes)";
+                return (memory / (1024 * 1024)) + " MB (" + memory + " Bytes)";
             }
             else
             {
-                return (memory / 1024 * 1024 * 1024) + " GB (" + memory + " Bytes)";
+                return (memory / (1024 * 1024 * 1024)) + " GB (" + memory + " Bytes)";
             }
         }
 
