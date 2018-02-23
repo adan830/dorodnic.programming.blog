@@ -26,7 +26,7 @@ namespace UMDH.Parser
             {
                 var line = lines[i];
                 // Foreach block start
-                foreach (Match match in Regex.Matches(line, "\\+( )*\\d+ \\(( )*\\d+ \\-( )*\\d"))
+                foreach (Match match in Regex.Matches(line, "[+-]( )*\\d+ \\(( )*\\d+ \\-( )*\\d"))
                 {
                     var start = match.Index;
 
