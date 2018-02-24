@@ -40,7 +40,7 @@ namespace UMDH.Visualizer
 
         public List<string> mVisualStudioOptions = new List<string> { "2005", "2008", "2010", "2012", "2015", "2017" };
         public List<string> VisualStudioOptions { get { return mVisualStudioOptions; }}
-        private string mVisualStudioVersion = "2015";
+        private string mVisualStudioVersion = "2010";
         public string VisualStudioVersion { 
             get { return mVisualStudioVersion; } 
             set { mVisualStudioVersion = value; } 

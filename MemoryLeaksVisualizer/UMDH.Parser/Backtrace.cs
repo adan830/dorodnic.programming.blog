@@ -12,7 +12,6 @@ namespace UMDH.Parser
     {
         public Codebase Owner { get; private set; }
         public int TotalLeak { get; private set; }
-        public int IndividualLeak { get; private set; }
         public int Count { get; private set; }
 
         public int StartLine { get; private set; }
@@ -27,15 +26,18 @@ namespace UMDH.Parser
             var header = lines[0];
             var subHeader = lines[1];
 
-            var headerNumbers = Regex.Matches(header, "(?<number>\\d+)( |\\))")
+            var headerNumbers = Regex.Matches(header, "(?<number>^-\\s*\\d+)|(?<number>\\d+)( |\\))")   // first number must capture negative sign if exists.
                 .Cast<Match>()
-                .Select(x => x.Groups["number"].Value)
+                .Select(x => x.Groups["number"].Value.Replace(" ", ""))
                 .Select(x => Convert.ToInt32(x))
                 .ToList();
 
-            var subHeaderNumbers = Regex.Matches(subHeader, "(?<number>\\d+)( |\\))")
+
+            var subHeaderNumberMatches = Regex.Matches(subHeader, "(?<number>^-\\s*\\d+)|(?<number>\\d+)( |\\))");
+            //var subHeaderNumbers = Regex.Matches(subHeader, "(?<number>^-\\s*\\d+)|(?<number>\\d+)( |\\))")  // first number must capture negative sign if exists.
+            var subHeaderNumbers = subHeaderNumberMatches
                 .Cast<Match>()
-                .Select(x => x.Groups["number"].Value)
+                .Select(x => x.Groups["number"].Value.Replace(" ", ""))
                 .Select(x => Convert.ToInt32(x))
                 .ToList();
  
@@ -49,7 +51,6 @@ namespace UMDH.Parser
             var result = new Backtrace
             {
                 TotalLeak = bytesDelta,
-                IndividualLeak = (countDelta > 0) ? bytesDelta / countDelta : 0,
                 Count = countDelta,
                 Owner = owner,
                 Lines = new List<LineOfCode>(),
@@ -103,7 +104,6 @@ namespace UMDH.Parser
             var other = obj as Backtrace;
             if (other == null) return false;
             if (other.Count != Count) return false;
-            if (other.IndividualLeak != IndividualLeak) return false;
 
             foreach (var line in Lines)
             {
@@ -115,7 +115,7 @@ namespace UMDH.Parser
 
         public override int GetHashCode()
         {
-            var code = IndividualLeak.GetHashCode() ^ Count.GetHashCode();
+            int code = 0;
 
             foreach (var line in Lines)
             {
@@ -127,7 +127,7 @@ namespace UMDH.Parser
 
         public override string ToString()
         {
-            return IndividualLeak + " bytes x " + Count + " times";
+            return TotalLeak + " bytes; net " + Count + " allocs";
         }
     }
 }
